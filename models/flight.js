@@ -23,10 +23,13 @@ const flightSchema = new Schema({
   departs: {
     type: Date,
     default: function() {
-      // return new Date(new Date().setFullYear(new Date().getFullYear() + 1))
-      return new Date()
-    }
+      const date = new Date()
+      let dateYear = date.setFullYear(date.getFullYear() + 1)
+      return dateYear
+    },
   }
+}, {
+  timestamps: true
 })
 
 // compile schema into a model

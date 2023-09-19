@@ -1,8 +1,12 @@
 import { Flight } from "../models/flight.js";
 
 function newFlight(req, res) {
+  const newFlight = new Flight();
+  const dt = newFlight.departs;
+  const departsDt = dt.toISOString().slice(0, 16);
   res.render('flights/new', {
-    title: 'ADD FLIGHT'
+    title: 'ADD FLIGHT',
+    departsDt
   })
 }
 
@@ -81,6 +85,35 @@ function update(req, res) {
   })
 }
 
+function createTicket(req, res) {
+  Flight.findById(req.params.flightId)
+  .then(flight => {
+    flight.tickets.push(req.body)
+    flight.save()
+    .then(() => {
+      res.redirect(`/flights/${flight._id}`)
+    })
+  })
+  .catch(err => {
+    console.log(err)
+    res.redirect('/flights')
+  })
+}
+
+function deleteTicket(req, res) {
+  Flight.findById(req.params.flightId)
+  .then(flight => {
+    flight.tickets.id(`${ticket._id}`).deleteOne()
+    flight.save() 
+    .then(() => {
+      res.redirect(`/flights/${flight._id}`)
+    })
+  })
+  .catch(err => {
+    console.log(err)
+    res.redirect('/flights')
+  })
+}
 
 export {
   newFlight as new, 
@@ -89,5 +122,7 @@ export {
   deleteFlight as delete,
   show, 
   edit,
-  update
+  update,
+  createTicket,
+  deleteTicket
 }

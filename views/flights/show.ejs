@@ -17,8 +17,43 @@
     <div>Airport: </div>
     <div><%= flight.airport %></div>
     <div>Departs: </div>
-    <div><%= flight.departs %></div>
+    <div><%= flight.departs.toLocaleDateString() %></div>
   </section>
+
+  <!-- Ticket section starts here -->
+  <h2>Your tickets here</h2>
+  <form id="add-ticket-form" action="/flights/<%= flight._id %>/tickets" method="POST">
+    <label for="ticket-seat">Ticket: </label>
+    <input type="text" name="seat" pattern="[A-F][1-9]\d?"placeholder="seat number here" required>
+    <label for="ticket-price">Price: </label>
+    <input type="number" name="price" min="0" placeholder="ticket price here" required>
+    <button type="submit">Add Ticket</button>
+  </form>
+
+  <!-- display ticket to the flight page code here -->
+  <table>
+    <thead>
+      <tr>
+        <th>Seat</th>
+        <th>Price</th>
+        <th>Date Added</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% flight.tickets.forEach(function(ticket) { %>
+        <tr>
+          <td><%= ticket.seat %></td>
+          <td><%= ticket.price %></td>
+          <td><%= ticket.createdAt.toLocaleDateString() %></td>
+          <td>
+            <form action="/flights/<%= flight._id %>/tickets/<%= ticket._id %>?_method=DELETE" method="POST">
+              <button type="submit">X</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
 </main>
 
 

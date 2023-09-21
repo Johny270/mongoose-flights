@@ -39,7 +39,7 @@ const flightSchema = new Schema({
       const date = new Date()
       let dateYear = date.setFullYear(date.getFullYear() + 1)
       return dateYear
-    },
+    }
   },
   tickets: [ticketSchema],
   meals: [{type: Schema.Types.ObjectId, ref: 'Meal'}]

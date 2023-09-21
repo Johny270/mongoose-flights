@@ -18,7 +18,24 @@
     <div><%= flight.airport %></div>
     <div>Departs: </div>
     <div><%= flight.departs.toLocaleDateString() %></div>
+    <!-- meals section starts here -->
+    <div>Meals: </div>
+    <ul>
+      <% meals.forEach(meal => { %>
+        <li><%= meal.name %></li>
+      <% }) %>
+    </ul>
   </section>
+
+  <form id="add-meal-to-meals" action="/flights/<%= flight._id %>/meals" method="POST">
+    <select name="nameId">
+      <% meals.forEach(meal => { %>
+        <option value="<%= meal._id %>"><%= meal.name %></option>
+      <% }) %>
+    </select>
+    <button type="submit">Add Meal</button>
+  </form>
+ 
 
   <!-- Ticket section starts here -->
   <h2>Your tickets here</h2>
@@ -43,7 +60,7 @@
       <% flight.tickets.forEach(function(ticket) { %>
         <tr>
           <td><%= ticket.seat %></td>
-          <td><%= ticket.price %></td>
+          <td>$<%= ticket.price %></td>
           <td><%= ticket.createdAt.toLocaleDateString() %></td>
           <td>
             <form action="/flights/<%= flight._id %>/tickets/<%= ticket._id %>?_method=DELETE" method="POST">
